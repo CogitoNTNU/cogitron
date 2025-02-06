@@ -1,5 +1,5 @@
 <!-- TODO: CHANGE ALL INSTANCES OF "TEMPLATE-README" IN ENTIRE PROJECT TO YOUR PROJECT TITLE-->
-# TEMPLATE-README
+# Cogito Cogitron
 
 
 <div align="center">
@@ -7,10 +7,10 @@
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/CogitoNTNU/TEMPLATE-README/ci.yml)
 ![GitHub top language](https://img.shields.io/github/languages/top/CogitoNTNU/TEMPLATE-README)
 ![GitHub language count](https://img.shields.io/github/languages/count/CogitoNTNU/TEMPLATE-README)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: GPLv3](https://img.shields.io/badge/license-GPLv3-blue)](https://opensource.org/licenses/MIT)
 [![Project Version](https://img.shields.io/badge/version-0.0.1-blue)](https://img.shields.io/badge/version-0.0.1-blue)
 
-<img src="docs/images/project-logo.webp" width="50%" alt="Cogito Project Logo" style="display: block; margin-left: auto; margin-right: auto;">
+<img src="https://www.cogito-ntnu.no/cogito_white.svg" width="50%" alt="Cogito Project Logo" style="display: block; margin-left: auto; margin-right: auto;">
 </div>
 
 
