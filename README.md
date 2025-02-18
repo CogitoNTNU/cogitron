@@ -29,7 +29,9 @@
 </details>
 
 ## Description 
+Longterm robot project created by the members of Cogito Cogitron.
 
+The project is hugely inspired by work done by HuggingFace with [lerobot](https://github.com/huggingface/lerobot/blob/main/examples/7_get_started_with_real_robot.md).
 
 ## Getting started
 To set up a python enviroment run the following in the terminal to setup a python enviroment:
@@ -49,6 +51,7 @@ Install the requirements with:
 Then open an interactive script session with:
 > python -i ./scripts/interactive.py
 
+For more information see the [documentation for lerobot](https://github.com/huggingface/lerobot/blob/main/examples/7_get_started_with_real_robot.md)
 
 ### Prerequisites
 <!-- TODO: In this section you put what is needed for the program to run.
