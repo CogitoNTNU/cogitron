@@ -29,23 +29,23 @@
 </details>
 
 ## Description 
-<!-- TODO: Provide a brief overview of what this project does and its key features. Please add pictures or videos of the application -->
 
 
 ## Getting started
-<!-- TODO: In this Section you describe how to install this project in its intended environment.(i.e. how to get it to run)  
--->
+To set up a python enviroment run the following in the terminal to setup a python enviroment:
+> python -m venv venv
 
-<!-- TODO: Describe how to configure the project (environment variables, config files, etc.).
+Then activate it with (windows):
+> . venv/scripts/activate
+Then activate it with (linux):
+> . venv/bin/activate
 
-### Configuration
-Create a `.env` file in the root directory of the project and add the following environment variables:
+Install the requirements with:
+> pip install -e ".[dynamixel]"
 
-```bash
-OPENAI_API_KEY = 'your_openai_api_key'
-MONGODB_URI = 'your_secret_key'
-```
--->
+Then open an interactive script session with:
+> python -i ./scripts/interactive.py
+
 
 ### Prerequisites
 <!-- TODO: In this section you put what is needed for the program to run.
