@@ -33,11 +33,14 @@
 
 ## Getting started
 To set up a python enviroment run the following in the terminal to setup a python enviroment:
-> python -m venv venv
+> `python -m venv venv`
 
-Then activate it with (windows):
+Then activate it 
+
+- windows
 > . venv/scripts/activate
-Then activate it with (linux):
+
+- linux
 > . venv/bin/activate
 
 Install the requirements with:
