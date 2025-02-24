@@ -14,6 +14,7 @@
 
 <details> 
 <summary><b>📋 Table of contents </b></summary>
+  
 - [Description](#description)
 - [Getting started](#getting-started)
   - [Prerequisites](#prerequisites)
