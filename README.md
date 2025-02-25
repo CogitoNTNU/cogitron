@@ -34,17 +34,25 @@ The project is largely inspired by the work done by HuggingFace with [lerobot](h
 Note: It is required to run the code on Linux.
 
 To set up a python enviroment run the following in the terminal to setup a python enviroment:
-> `python -m venv venv`
+```bash
+python -m venv venv
+```
 
 Then activate it 
 
-> . venv/bin/activate
+```bash
+. venv/bin/activate
+```
 
 Install the requirements with:
-> pip install -e ".[dynamixel]"
+```bash
+pip install -e ".[dynamixel]"
+```
 
 Then open an interactive script session with:
-> python -i ./scripts/interactive.py
+```bash
+python -i ./scripts/interactive.py
+```
 
 For more information see the [documentation for lerobot](https://github.com/huggingface/lerobot/blob/main/examples/7_get_started_with_real_robot.md)
 
