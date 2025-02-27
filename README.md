@@ -1,51 +1,52 @@
 <!-- TODO: CHANGE ALL INSTANCES OF "TEMPLATE-README" IN ENTIRE PROJECT TO YOUR PROJECT TITLE-->
-# TEMPLATE-README
+# Cogito Cogitron
 
 
 <div align="center">
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/CogitoNTNU/TEMPLATE-README/ci.yml)
-![GitHub top language](https://img.shields.io/github/languages/top/CogitoNTNU/TEMPLATE-README)
-![GitHub language count](https://img.shields.io/github/languages/count/CogitoNTNU/TEMPLATE-README)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![GitHub top language](https://img.shields.io/badge/languages-Python/C++-orange)
+[![License: GPLv3](https://img.shields.io/badge/license-GPLv3-blue)](https://opensource.org/license/gpl-3-0)
 [![Project Version](https://img.shields.io/badge/version-0.0.1-blue)](https://img.shields.io/badge/version-0.0.1-blue)
 
-<img src="docs/images/project-logo.webp" width="50%" alt="Cogito Project Logo" style="display: block; margin-left: auto; margin-right: auto;">
+<img src="https://www.cogito-ntnu.no/cogito_white.svg" width="50%" alt="Cogito Project Logo" style="display: block; margin-left: auto; margin-right: auto;">
 </div>
-
 
 <details> 
 <summary><b>📋 Table of contents </b></summary>
-
-- [TEMPLATE-README](#template-readme)
-  - [Description](#description)
-  - [Getting started](#getting-started)
-    - [Prerequisites](#prerequisites)
-  - [Usage](#usage)
-  - [Testing](#testing)
-  - [Team](#team)
-    - [License](#license)
+  
+- [Description](#description)
+- [Getting started](#getting-started)
+  - [Prerequisites](#prerequisites)
+- [Usage](#usage)
+- [Testing](#testing)
+- [Team](#team)
+  - [License](#license)
 
 </details>
 
 ## Description 
-<!-- TODO: Provide a brief overview of what this project does and its key features. Please add pictures or videos of the application -->
+Longterm robot project created by the members of Cogito Cogitron.
 
+The project is largely inspired by the work done by HuggingFace with [lerobot](https://github.com/huggingface/lerobot/blob/main/examples/7_get_started_with_real_robot.md).
 
 ## Getting started
-<!-- TODO: In this Section you describe how to install this project in its intended environment.(i.e. how to get it to run)  
--->
+Note: It is required to run the code on Linux.
 
-<!-- TODO: Describe how to configure the project (environment variables, config files, etc.).
+To set up a python enviroment run the following in the terminal to setup a python enviroment:
+> `python -m venv venv`
 
-### Configuration
-Create a `.env` file in the root directory of the project and add the following environment variables:
+Then activate it 
 
-```bash
-OPENAI_API_KEY = 'your_openai_api_key'
-MONGODB_URI = 'your_secret_key'
-```
--->
+> . venv/bin/activate
+
+Install the requirements with:
+> pip install -e ".[dynamixel]"
+
+Then open an interactive script session with:
+> python -i ./scripts/interactive.py
+
+For more information see the [documentation for lerobot](https://github.com/huggingface/lerobot/blob/main/examples/7_get_started_with_real_robot.md)
 
 ### Prerequisites
 <!-- TODO: In this section you put what is needed for the program to run.
@@ -53,6 +54,7 @@ For example: OS version, programs, libraries, etc.
 
 -->
 - Ensure that git is installed on your machine. [Download Git](https://git-scm.com/downloads)
+- Make sure [Python is installed](https://www.python.org/downloads/).
 
 
 
