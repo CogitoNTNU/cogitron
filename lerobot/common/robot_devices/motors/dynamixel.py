@@ -22,8 +22,8 @@ MAX_ID_RANGE = 252
 # which corresponds to a half rotation on the left and half rotation on the right.
 # Some joints might require higher range, so we allow up to [-270, 270] degrees until
 # an error is raised.
-LOWER_BOUND_DEGREE = -270
-UPPER_BOUND_DEGREE = 270
+LOWER_BOUND_DEGREE = [-270,-270,-270,-270,-270,-270]
+UPPER_BOUND_DEGREE = [270,270,270,270,270,270]
 # For joints in percentage (i.e. joints that move linearly like the prismatic joint of a gripper),
 # their nominal range is [0, 100] %. For instance, for Aloha gripper, 0% is fully
 # closed, and 100% is fully open. To account for slight calibration issue, we allow up to
@@ -473,11 +473,11 @@ class DynamixelMotorsBus:
                 # (e.g. 2048 / (4096 // 2) * 180 = 180)
                 values[i] = values[i] / (resolution // 2) * HALF_TURN_DEGREE
 
-                if (values[i] < LOWER_BOUND_DEGREE) or (values[i] > UPPER_BOUND_DEGREE):
+                if (values[i] < LOWER_BOUND_DEGREE[i]) or (values[i] > UPPER_BOUND_DEGREE[i]):
                     raise JointOutOfRangeError(
                         f"Wrong motor position range detected for {name}. "
                         f"Expected to be in nominal range of [-{HALF_TURN_DEGREE}, {HALF_TURN_DEGREE}] degrees (a full rotation), "
-                        f"with a maximum range of [{LOWER_BOUND_DEGREE}, {UPPER_BOUND_DEGREE}] degrees to account for joints that can rotate a bit more, "
+                        f"with a maximum range of [{LOWER_BOUND_DEGREE[i]}, {UPPER_BOUND_DEGREE[i]}] degrees to account for joints that can rotate a bit more, "
                         f"but present value is {values[i]} degree. "
                         "This might be due to a cable connection issue creating an artificial 360 degrees jump in motor values. "
                         "You need to recalibrate by running: `python lerobot/scripts/control_robot.py calibrate`"
@@ -546,7 +546,7 @@ class DynamixelMotorsBus:
 
                 # Convert from initial range to range [-180, 180] degrees
                 calib_val = (values[i] + homing_offset) / (resolution // 2) * HALF_TURN_DEGREE
-                in_range = (calib_val > LOWER_BOUND_DEGREE) and (calib_val < UPPER_BOUND_DEGREE)
+                in_range = (calib_val > LOWER_BOUND_DEGREE[i]) and (calib_val < UPPER_BOUND_DEGREE[i])
 
                 # Solve this inequality to find the factor to shift the range into [-180, 180] degrees
                 # values[i] = (values[i] + homing_offset + resolution * factor) / (resolution // 2) * HALF_TURN_DEGREE
@@ -585,8 +585,8 @@ class DynamixelMotorsBus:
                         raise ValueError(f"No integer found between bounds [{low_factor=}, {upp_factor=}]")
 
                 if CalibrationMode[calib_mode] == CalibrationMode.DEGREE:
-                    out_of_range_str = f"{LOWER_BOUND_DEGREE} < {calib_val} < {UPPER_BOUND_DEGREE} degrees"
-                    in_range_str = f"{LOWER_BOUND_DEGREE} < {calib_val} < {UPPER_BOUND_DEGREE} degrees"
+                    out_of_range_str = f"{LOWER_BOUND_DEGREE[i]} < {calib_val} < {UPPER_BOUND_DEGREE[i]} degrees"
+                    in_range_str = f"{LOWER_BOUND_DEGREE[i]} < {calib_val} < {UPPER_BOUND_DEGREE[i]} degrees"
                 elif CalibrationMode[calib_mode] == CalibrationMode.LINEAR:
                     out_of_range_str = f"{LOWER_BOUND_LINEAR} < {calib_val} < {UPPER_BOUND_LINEAR} %"
                     in_range_str = f"{LOWER_BOUND_LINEAR} < {calib_val} < {UPPER_BOUND_LINEAR} %"
