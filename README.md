@@ -15,13 +15,13 @@
 <details> 
 <summary><b>📋 Table of contents </b></summary>
   
-- [Description](#description)
-- [Getting started](#getting-started)
-  - [Prerequisites](#prerequisites)
-- [Usage](#usage)
-- [Testing](#testing)
-- [Team](#team)
-  - [License](#license)
+  - [Description](#description)
+  - [Getting started](#getting-started)
+    - [Prerequisites](#prerequisites)
+  - [Usage](#usage)
+  - [Testing](#testing)
+  - [Team](#team)
+    - [License](#license)
 
 </details>
 
@@ -35,7 +35,7 @@ Note: It is required to run the code on Linux.
 
 To set up a python enviroment run the following in the terminal to setup a python enviroment:
 ```bash
-python -m venv venv
+python3 -m venv venv
 ```
 
 Then activate it 
@@ -53,7 +53,7 @@ Then open an interactive script session with:
 ```bash
 python -i ./scripts/interactive.py
 ```
-
+<!--  -->
 For more information see the [documentation for lerobot](https://github.com/huggingface/lerobot/blob/main/examples/7_get_started_with_real_robot.md)
 
 ### Prerequisites
