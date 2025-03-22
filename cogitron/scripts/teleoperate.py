@@ -1,6 +1,9 @@
 from cogitron.arms import robot
 import tqdm
 
+
+robot.connect()
+
 seconds = 30
 frequency = 200
 for _ in tqdm.tqdm(range(seconds*frequency)):
