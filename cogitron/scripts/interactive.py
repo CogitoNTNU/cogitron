@@ -1,54 +1,16 @@
-# import sys
-# print(sys.path)
-
 import sys
 import os
-sys.path.append(os.path.abspath("."))
-
-
-from lerobot.common.robot_devices.motors.dynamixel import DynamixelMotorsBus
-
 from time import sleep
 from numpy import array, int32
 import numpy as np
+sys.path.append(os.path.abspath("."))
 
 from lerobot.common.robot_devices.motors.dynamixel import TorqueMode
+from cogitron.arms import follower_arm, leader_arm
 
 # sudo chmod 666 /dev/ttyACM2 /dev/ttyACM1
 
-leader_port = "/dev/ttyACM1"
-follower_port = "/dev/ttyACM0"
-
-leader_arm = DynamixelMotorsBus(
-    port=leader_port,
-    motors={
-        # name: (index, model)
-        "shoulder_pan": (1, "xl330-m077"),
-        "shoulder_lift": (2, "xl330-m077"),
-        "elbow_flex": (3, "xl330-m077"),
-        "wrist_flex": (4, "xl330-m077"),
-        "wrist_roll": (5, "xl330-m077"),
-        "gripper": (6, "xl330-m077"),
-    },
-)
-
-
-follower_arm = DynamixelMotorsBus(
-    port=follower_port,
-    motors={
-        # name: (index, model)
-        "shoulder_pan": (1, "xl430-w250"),
-        "shoulder_lift": (2, "xl430-w250"),
-        "elbow_flex": (3, "xl330-m288"),
-        "wrist_flex": (4, "xl330-m288"),
-        "wrist_roll": (5, "xl330-m288"),
-        "gripper": (6, "xl330-m288"),
-    },
-)
-
-#positions = [array([1842, 2009, 1688, 3435, 2172, 4063], dtype=int32), array([1556, 2008, 1896, 3854, 2133, 4063], dtype=int32), array([1763, 1936, 2273, 4145, 2442, 4563], dtype=int32), array([2445, 1892, 2188, 3229, 2123, 4520], dtype=int32), array([1853, 2654, 2736, 4194, 1718, 4394], dtype=int32), array([1611, 1894, 2148, 3001, 2231, 4396], dtype=int32), array([1597, 1885, 1676, 4602, 1860, 4396], dtype=int32), array([1774, 1887, 2403, 3618, 2428, 4394], dtype=int32), array([1282, 1878, 2069, 3444, 1522, 4391], dtype=int32), array([1794, 2423, 2321, 4266, 2324, 4051], dtype=int32), array([1535, 2044, 1913, 3415, 2374, 4331], dtype=int32)]
-
-#leader_arm.connect()
+leader_arm.connect()
 follower_arm.connect()
 
 def follower_read():
@@ -62,8 +24,6 @@ def leader_read():
 
 def leader_write(position):
     leader_arm.write("Goal_Position", position)
-
-
 
 def follower_relax():
     follower_arm.write("Torque_Enable", TorqueMode.DISABLED.value)
@@ -86,8 +46,6 @@ def move(positions):
 
 def interpolate(a, b, x):
     return a*(1-x) + b*(x)
-
-
 
 def dance():
     follower_flex()
