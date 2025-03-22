@@ -1,5 +1,5 @@
-import arms
-from arms import leader_arm, follower_arm
+from cogitron import arms
+from cogitron.arms import leader_arm, follower_arm
 
 import read_values
 

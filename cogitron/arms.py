@@ -7,15 +7,14 @@ sys.path.append(os.path.abspath("."))
 
 from lerobot.common.robot_devices.motors.dynamixel import DynamixelMotorsBus
 from lerobot.common.robot_devices.motors.dynamixel import TorqueMode
-from lerobot.common.robot_devices.robots.configs import KochRobotConfig
+from lerobot.common.robot_devices.robots.manipulator import ManipulatorRobotConfig
 from lerobot.common.robot_devices.robots.manipulator import ManipulatorRobot
-
 
 leader_port = "/dev/ttyACM0"
 follower_port = "/dev/ttyACM1"
 
 
-leader_config = DynamixelMotorsBusConfig(
+leader_arm = DynamixelMotorsBus(
     port=leader_port,
     motors={
         # name: (index, model)
@@ -28,7 +27,7 @@ leader_config = DynamixelMotorsBusConfig(
     },
 )
 
-follower_config = DynamixelMotorsBusConfig(
+follower_arm = DynamixelMotorsBus(
     port=follower_port,
     motors={
         # name: (index, model)
@@ -41,12 +40,14 @@ follower_config = DynamixelMotorsBusConfig(
     },
 )
 
-leader_arm = DynamixelMotorsBus(leader_config)
-follower_arm = DynamixelMotorsBus(follower_config)
 
-robot_config = KochRobotConfig(
-    leader_arms={"main": leader_config},
-    follower_arms={"main": follower_config},
+robot_config = ManipulatorRobotConfig(
+    robot_type="koch",
+    leader_arms={"main": leader_arm},
+    follower_arms={"main": follower_arm},
     cameras={},  # We don't use any camera for now
 )
+
+
 robot = ManipulatorRobot(robot_config)
+
