@@ -1,21 +1,21 @@
 import sys
 import os
-sys.path.append(os.path.abspath("."))
-
-
-from lerobot.common.robot_devices.motors.dynamixel import DynamixelMotorsBus
-
 from time import sleep
 from numpy import array, int32
 import numpy as np
+sys.path.append(os.path.abspath("."))
 
+from lerobot.common.robot_devices.motors.dynamixel import DynamixelMotorsBus
 from lerobot.common.robot_devices.motors.dynamixel import TorqueMode
+from lerobot.common.robot_devices.robots.configs import KochRobotConfig
+from lerobot.common.robot_devices.robots.manipulator import ManipulatorRobot
 
 
-leader_port = "/dev/ttyACM1"
-follower_port = "/dev/ttyACM0"
+leader_port = "/dev/ttyACM0"
+follower_port = "/dev/ttyACM1"
 
-leader_arm = DynamixelMotorsBus(
+
+leader_config = DynamixelMotorsBusConfig(
     port=leader_port,
     motors={
         # name: (index, model)
@@ -28,8 +28,7 @@ leader_arm = DynamixelMotorsBus(
     },
 )
 
-
-follower_arm = DynamixelMotorsBus(
+follower_config = DynamixelMotorsBusConfig(
     port=follower_port,
     motors={
         # name: (index, model)
@@ -41,3 +40,13 @@ follower_arm = DynamixelMotorsBus(
         "gripper": (6, "xl330-m288"),
     },
 )
+
+leader_arm = DynamixelMotorsBus(leader_config)
+follower_arm = DynamixelMotorsBus(follower_config)
+
+robot_config = KochRobotConfig(
+    leader_arms={"main": leader_config},
+    follower_arms={"main": follower_config},
+    cameras={},  # We don't use any camera for now
+)
+robot = ManipulatorRobot(robot_config)
