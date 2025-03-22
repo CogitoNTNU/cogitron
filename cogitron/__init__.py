@@ -1,11 +1,6 @@
 from cogitron import arms
 from cogitron.arms import leader_arm, follower_arm
 
-import read_values
-
-import dynamixel_cogitron
-from dynamixel_cogitron import X_SERIES_CONTROL_TABLE
-
 
 config_leader = {
     "Velocity_I_Gain":1000,
