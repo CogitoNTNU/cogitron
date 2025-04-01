@@ -1,5 +1,15 @@
-import arms
-from arms import leader_arm, follower_arm
+import sys
+import os
+from time import sleep
+from numpy import array, int32
+import numpy as np
+sys.path.append(os.path.abspath("."))
+
+from lerobot.common.robot_devices.motors.dynamixel import TorqueMode
+from cogitron.arms import follower_arm, leader_arm
+
+leader_arm.connect()
+follower_arm.connect()
 
 value_names = [
     "Model_Number",
@@ -58,6 +68,10 @@ value_names = [
 
 leader_values = {}
 follower_values = {}
+
+def connect_arms():
+    leader_arm.connect()
+    follower_arm.connect()
 
 def read_values_leder():
     for key in value_names:
