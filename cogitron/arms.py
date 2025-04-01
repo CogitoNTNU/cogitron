@@ -10,8 +10,8 @@ from lerobot.common.robot_devices.motors.dynamixel import TorqueMode
 from lerobot.common.robot_devices.robots.manipulator import ManipulatorRobotConfig
 from lerobot.common.robot_devices.robots.manipulator import ManipulatorRobot
 
-leader_port = "/dev/ttyACM0"
-follower_port = "/dev/ttyACM1"
+leader_port = "/dev/ttyACM2"
+follower_port = "/dev/ttyACM3"
 
 
 leader_arm = DynamixelMotorsBus(
