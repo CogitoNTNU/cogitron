@@ -69,11 +69,14 @@ value_names = [
 leader_values = {}
 follower_values = {}
 
+values_leader = "cogitron/values_leader.txt"
+values_follower = "cogitron/values_follower.txt"
+
 def connect_arms():
     leader_arm.connect()
     follower_arm.connect()
 
-def read_values_leder():
+def read_values_leader():
     for key in value_names:
         leader_values[key] =leader_arm.read(key)
 
@@ -82,18 +85,16 @@ def read_values_follower():
         follower_values[key] = follower_arm.read(key)
 
 def save_values_leader():
-    with open("values_leader.txt", "w") as f:
+    with open(values_leader, "w") as f:
         f.write("Leader: \n")
         for key, value in leader_values.items():
             f.write(f"{key}: {value} \n")
-        f.close()
 
 def save_values_follower():
-    with open("values_follower.txt", "a") as f:
+    with open(values_follower, "a") as f:
         f.write("Follower: \n")
         for key, value in follower_values.items():
             f.write(f"{key}: {value} \n")
-        f.close()
 
 def save_values():
     save_values_leader()
@@ -108,15 +109,28 @@ def print_values():
         print(f"{key}: {value} \n")
 
 def load_old_values():
-    with open("values_leader.txt", "r") as f:
+    with open(values_leader, "r") as f:
         for line in f:
             key, value = line.split(": ")
             value = int(value)
             leader_values[key] = value
-        f.close()
-    with open("values_follower.txt", "r") as f:
+    with open(values_follower, "r") as f:
         for line in f:
             key, value = line.split(": ")
             value = int(value)
             follower_values[key] = value
-        f.close()
+
+def load_saved_values():
+    for key in value_names:
+        leader_arm.write(key, leader_values[key])
+        follower_arm.write(key, follower_values[key])
+
+def write_to_leader(key, value):
+    leader_arm.write(key, value)
+    leader_values[key] = value
+    print(f"Leader {key}: {value} \n")
+
+def write_to_follower(key, value):
+    follower_arm.write(key, value)
+    follower_values[key] = value
+    print(f"Follower {key}: {value} \n")
