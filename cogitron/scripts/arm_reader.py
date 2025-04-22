@@ -44,7 +44,7 @@ class ArmReader:
             print(f"{key}: {item} \n")
 
 leader_reader = ArmReader("Leader", leader_arm)
-follower_reader = ArmReader("Leader", follower_arm)
+follower_reader = ArmReader("Follower", follower_arm)
 
 leader_reader.read_values()
 leader_reader.print_values()
