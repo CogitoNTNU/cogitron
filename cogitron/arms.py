@@ -3,7 +3,7 @@ import dynamixel_sdk as dxl
 from lerobot.teleoperators.koch_leader import KochLeaderConfig, KochLeader
 from lerobot.robots.koch_follower import KochFollowerConfig, KochFollower
 from lerobot.cameras.opencv.configuration_opencv import OpenCVCameraConfig
-
+from config import FPS, CAMERA_WIDTH, CAMERA_HEIGHT
 
 PROTOCOL_VERSION = 2.0
 TIMEOUT_MS = 1000
@@ -81,7 +81,7 @@ for port in usb_device_ports:
     
 
 camera_config = {
-    "front": OpenCVCameraConfig(index_or_path=0, width=1280, height=720, fps=60)
+    "front": OpenCVCameraConfig(index_or_path=0, width=CAMERA_WIDTH, height=CAMERA_HEIGHT, fps=FPS)
 }
 
 robot_config = KochFollowerConfig(

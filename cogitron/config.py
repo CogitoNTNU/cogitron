@@ -1,0 +1,4 @@
+FPS = 60
+CAMERA_WIDTH = 1280
+CAMERA_HEIGHT = 720
+TELEOPERATE_REPO_ID = "cogitron-teleoperate-koch"
