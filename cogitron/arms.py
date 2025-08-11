@@ -4,15 +4,15 @@ from time import sleep
 from numpy import array, int32
 import numpy as np
 import subprocess
-sys.path.append(os.path.abspath("."))
-
-from lerobot.common.robot_devices.motors.dynamixel import DynamixelMotorsBus
-from lerobot.common.robot_devices.motors.dynamixel import TorqueMode
-from lerobot.common.robot_devices.robots.manipulator import ManipulatorRobotConfig
-from lerobot.common.robot_devices.robots.manipulator import ManipulatorRobot
-
 import dynamixel_sdk as dxl
 
+
+PROTOCOL_VERSION = 2.0
+TIMEOUT_MS = 1000
+ADDRESS_MODEL_NUMBER = 0
+COMM_SUCCESS = 0 # Communication Success result value
+COMM_TX_FAIL = -1001 # Communication Tx Failed
+USB_DECODER_ID = "0000:0000" # Place holder. TODO: Change to actual value of decoder.
 
 
 leader_arm_motors = {
@@ -35,7 +35,6 @@ follower_arm_motors = {
     "gripper": (6, "xl330-m288"),
 }
 
-
 model_numbers = {
     "xl330-m077":1_190,
     "xl430-w250":1_060,
@@ -45,16 +44,6 @@ model_numbers = {
 
 leader_arm_key = tuple(map(lambda x:model_numbers[x[1]], leader_arm_motors))
 follower_arm_key = tuple(map(lambda x:model_numbers[x[1]], leader_arm_motors))
-
-
-PROTOCOL_VERSION = 2.0
-TIMEOUT_MS = 1000
-ADDRESS_MODEL_NUMBER = 0
-COMM_SUCCESS = 0 # Communication Success result value
-COMM_TX_FAIL = -1001 # Communication Tx Failed
-USB_DECODER_ID = "0000:0000" # Place holder. TODO: Change to actual value of decoder.
-
-
 
 usb_device_ports = subprocess.run(f"lsusb | grep {USB_DECODER_ID} | sed -r 's/Bus (.*) Device (.*): .*$/\/dev\/bus\/usb\/\1\/\2/'", shell=True, capture_output=True).stdout.decode().split("\n")
 
@@ -84,35 +73,16 @@ for port in usb_device_ports:
         
     key = tuple(key)
     
-    
     if key==leader_arm_key:
         leader_port = port
     elif key==follower_arm_key:
         follower_port = port
 
     port_handler.closePort()
+    
 
+def get_leader_port():
+    return leader_port
 
-
-
-leader_arm = DynamixelMotorsBus(
-    port=leader_port,
-    motors=leader_arm_motors,
-)
-
-follower_arm = DynamixelMotorsBus(
-    port=follower_port,
-    motors=follower_arm_motors,
-)
-
-
-robot_config = ManipulatorRobotConfig(
-    robot_type="koch",
-    leader_arms={"main": leader_arm},
-    follower_arms={"main": follower_arm},
-    cameras={},  # We don't use any camera for now
-)
-
-
-robot = ManipulatorRobot(robot_config)
-
+def get_follower_port():
+    return follower_port
