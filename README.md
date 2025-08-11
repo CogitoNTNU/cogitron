@@ -17,11 +17,8 @@
   
 - [Description](#description)
 - [Getting started](#getting-started)
-  - [Prerequisites](#prerequisites)
-- [Usage](#usage)
-- [Testing](#testing)
-- [Team](#team)
-  - [License](#license)
+  - [Set up enviroment](#setup-enviroment)
+- [License](#license)
 
 </details>
 
@@ -31,66 +28,41 @@ Longterm robot project created by the members of Cogito Cogitron.
 The project is largely inspired by the work done by HuggingFace with [lerobot](https://github.com/huggingface/lerobot/blob/main/examples/7_get_started_with_real_robot.md).
 
 ## Getting started
-Note: It is required to run the code on Linux.
-
-To set up a python enviroment run the following in the terminal to setup a python enviroment:
-> `python -m venv venv`
-
-Then activate it 
-
-> . venv/bin/activate
-
-Install the requirements with:
-> pip install -e ".[dynamixel]"
-
-Then open an interactive script session with:
-> python -i ./scripts/interactive.py
-
-For more information see the [documentation for lerobot](https://github.com/huggingface/lerobot/blob/main/examples/7_get_started_with_real_robot.md)
-
-### Prerequisites
-<!-- TODO: In this section you put what is needed for the program to run.
-For example: OS version, programs, libraries, etc.  
-
--->
+Prerequisits:
 - Ensure that git is installed on your machine. [Download Git](https://git-scm.com/downloads)
 - Make sure [Python is installed](https://www.python.org/downloads/).
 
-
-
-## Usage
-To run the project, run the following command from the root directory of the project:
+Download the repository by running the following:
 ```bash
-
-```
-<!-- TODO: Instructions on how to run the project and use its features. -->
-
-## Testing
-To run the test suite, run the following command from the root directory of the project:
-```bash
-
+git clone https://github.com/CogitoNTNU/cogitron
 ```
 
-## Team
-This project would not have been possible without the hard work and dedication of all of the contributors. Thank you for the time and effort you have put into making this project a reality.
+After cloning the repository you can change into the directory by running:
+```bash
+cd ./cogitron
+```
 
+### Setup enviroment
+Note: It is required to run the code on Linux.
 
-<table align="center">
-    <tr>
-        <!--
-        <td align="center">
-            <a href="https://github.com/NAME_OF_MEMBER">
-              <img src="https://github.com/NAME_OF_MEMBER.png?size=100" width="100px;" alt="NAME OF MEMBER"/><br />
-              <sub><b>NAME OF MEMBER</b></sub>
-            </a>
-        </td>
-        -->
-    </tr>
-</table>
+To set up a python enviroment run the following in the terminal:
+```bash
+python3 -m venv venv
+```
 
-![Group picture](docs/img/team.png)
+Then activate it 
+```bash
+. venv/bin/activate
+```
+
+Install the requirements with:
+```bash
+pip install -r requirements.txt
+```
+
+For more information see the [documentation for lerobot](https://huggingface.co/docs/lerobot/il_robots)
 
 
 ### License
 ------
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the GPLv3 License. See `LICENSE` for more information.
