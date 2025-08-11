@@ -1,10 +1,8 @@
-import sys
-import os
-from time import sleep
-from numpy import array, int32
-import numpy as np
 import subprocess
 import dynamixel_sdk as dxl
+from lerobot.teleoperators.koch_leader import KochLeaderConfig, KochLeader
+from lerobot.robots.koch_follower import KochFollowerConfig, KochFollower
+from lerobot.cameras.opencv.configuration_opencv import OpenCVCameraConfig
 
 
 PROTOCOL_VERSION = 2.0
@@ -40,6 +38,7 @@ model_numbers = {
     "xl430-w250":1_060,
     "xl330-m288":1_200,
 }
+
 
 
 leader_arm_key = tuple(map(lambda x:model_numbers[x[1]], leader_arm_motors))
@@ -81,8 +80,24 @@ for port in usb_device_ports:
     port_handler.closePort()
     
 
-def get_leader_port():
-    return leader_port
+camera_config = {
+    "front": OpenCVCameraConfig(index_or_path=0, width=1280, height=720, fps=60)
+}
 
-def get_follower_port():
-    return follower_port
+robot_config = KochFollowerConfig(
+    port=follower_port,
+    id="follower_arm",
+    cameras=camera_config,
+)
+
+teleop_config = KochLeaderConfig(
+    port=leader_port,
+    id="leader_arm",
+)
+
+
+def get_follower_arm():    
+    return KochFollower(robot_config)
+
+def get_leader_arm():
+    return KochLeaderConfig(teleop_config)
