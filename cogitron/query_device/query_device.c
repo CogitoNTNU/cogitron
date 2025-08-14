@@ -6,6 +6,8 @@
 static PyObject *
 query_device_get_devpath(PyObject *self, PyObject *args)
 {
+    //TODO: Add error handling
+
     const char *filepath;
     int sts;
 
@@ -38,9 +40,6 @@ PyInit_query_device(void)
 {
     return PyModuleDef_Init(&query_device_module);
 }
-
-
-
 
 
 main(int argc, char *argv[])
