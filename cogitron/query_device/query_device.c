@@ -1,6 +1,6 @@
 #define PY_SSIZE_T_CLEAN
 #include <systemd/sd-device.h>
-#include <python3.12/Python.h>
+#include <Python.h>
 
 
 static PyObject *
