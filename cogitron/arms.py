@@ -44,7 +44,7 @@ model_numbers = {
 
 
 leader_arm_key = tuple(map(lambda x:model_numbers[x[1]], leader_arm_motors.values()))
-follower_arm_key = tuple(map(lambda x:model_numbers[x[1]], leader_arm_motors.values()))
+follower_arm_key = tuple(map(lambda x:model_numbers[x[1]], follower_arm_motors.values()))
 
 
 possible_arm_paths = Path("/dev").glob("ttyACM*")
@@ -56,26 +56,30 @@ packet_handler = dxl.PacketHandler(PROTOCOL_VERSION)
 for port in arm_paths:
     port_handler = dxl.PortHandler(port)
     port_handler.setPacketTimeoutMillis(TIMEOUT_MS)
-
+    port_handler.openPort()
+    
     if not port_handler.openPort():
         raise OSError(f"Failed to open port '{port}'.")
     
+    sync_reader = dxl.GroupSyncRead(port_handler, packet_handler, 0, 2)
+
     key = []
     
     for id in range(1,7):
-        model_number = dxl.read4ByteTxRx(port_handler, PROTOCOL_VERSION, id, ADDRESS_MODEL_NUMBER)
+        sync_reader.addParam(id)
+        sync_reader.txRxPacket()
         
-        if dxl.getLastTxRxResult(port_handler, PROTOCOL_VERSION) != COMM_SUCCESS:
-            dxl.printTxRxResult(PROTOCOL_VERSION, dxl.getLastTxRxResult(port_handler, PROTOCOL_VERSION))
-            raise
-        elif dxl.getLastRxPacketError(port_handler, PROTOCOL_VERSION) != 0:
-            dxl.printRxPacketError(PROTOCOL_VERSION, dxl.getLastRxPacketError(port_handler, PROTOCOL_VERSION))
-            raise
-        
+        model_number = sync_reader.getData(id, 0, 2)
         key.append(model_number)
+
+        sync_reader.removeParam(id)
         
     key = tuple(key)
     
+    print(key)
+
+    print(follower_arm_key)
+
     if key==leader_arm_key:
         leader_port = port
     elif key==follower_arm_key:
