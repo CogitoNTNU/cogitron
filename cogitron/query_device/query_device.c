@@ -6,8 +6,6 @@
 static PyObject *
 query_device_get_devpath(PyObject *self, PyObject *args)
 {
-    //TODO: Add error handling
-
     const char *filepath;
     int sts;
 
@@ -15,11 +13,21 @@ query_device_get_devpath(PyObject *self, PyObject *args)
         return NULL;
 
     sd_device* device;    
-    sd_device_new_from_devname(&device, filepath);
+    sts = sd_device_new_from_devname(&device, filepath);
+
+    if (sts < 0){
+        PyErr_SetString(PyExc_ValueError, "Unable to create sd device. Make sure you input a valid device path.");
+        return NULL;
+    }
 
     const char* devpath;
     sts = sd_device_get_devpath(device, &devpath);
-        
+
+    if (sts < 0){
+        PyErr_SetString(PyExc_RuntimeError, "Internal error. Unable to obtain devpath from the device.");
+        return NULL;
+    }
+    
     return PyUnicode_FromString(devpath);
 }
 
@@ -81,8 +89,8 @@ main(int argc, char *argv[])
 
     return 0;
 
-  exception:
-     PyConfig_Clear(&config);
-     Py_ExitStatusException(status);
+    exception:
+        PyConfig_Clear(&config);
+        Py_ExitStatusException(status);
 }
 
