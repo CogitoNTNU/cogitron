@@ -3,7 +3,10 @@ import dynamixel_sdk as dxl
 from lerobot.teleoperators.koch_leader import KochLeaderConfig, KochLeader
 from lerobot.robots.koch_follower import KochFollowerConfig, KochFollower
 from lerobot.cameras.opencv.configuration_opencv import OpenCVCameraConfig
-from config import FPS, CAMERA_WIDTH, CAMERA_HEIGHT
+from cogitron import config
+from pathlib import Path
+from cogitron.query_device import get_device_id
+from cogitron.camera import get_camera_config
 
 PROTOCOL_VERSION = 2.0
 TIMEOUT_MS = 1000
@@ -40,16 +43,17 @@ model_numbers = {
 }
 
 
+leader_arm_key = tuple(map(lambda x:model_numbers[x[1]], leader_arm_motors.values()))
+follower_arm_key = tuple(map(lambda x:model_numbers[x[1]], leader_arm_motors.values()))
 
-leader_arm_key = tuple(map(lambda x:model_numbers[x[1]], leader_arm_motors))
-follower_arm_key = tuple(map(lambda x:model_numbers[x[1]], leader_arm_motors))
 
-usb_device_ports = subprocess.run(f"lsusb | grep {USB_DECODER_ID} | sed -r 's/Bus (.*) Device (.*): .*$/\/dev\/bus\/usb\/\1\/\2/'", shell=True, capture_output=True).stdout.decode().split("\n")
-
+possible_arm_paths = Path("/dev").glob("ttyACM*")
+possible_arm_paths = [str(path) for path in possible_arm_paths]
+arm_paths = list(filter(lambda path:get_device_id(path)==config.ROBOT_ARM_USB_ID, possible_arm_paths))
 
 packet_handler = dxl.PacketHandler(PROTOCOL_VERSION)
 
-for port in usb_device_ports:
+for port in arm_paths:
     port_handler = dxl.PortHandler(port)
     port_handler.setPacketTimeoutMillis(TIMEOUT_MS)
 
@@ -78,26 +82,26 @@ for port in usb_device_ports:
         follower_port = port
 
     port_handler.closePort()
-    
-
-camera_config = {
-    "front": OpenCVCameraConfig(index_or_path=0, width=CAMERA_WIDTH, height=CAMERA_HEIGHT, fps=FPS)
-}
-
-robot_config = KochFollowerConfig(
-    port=follower_port,
-    id="follower_arm",
-    cameras=camera_config,
-)
-
-teleop_config = KochLeaderConfig(
-    port=leader_port,
-    id="leader_arm",
-)
 
 
-def get_follower_arm():    
+
+def get_follower_arm():
+    camera_config = {
+        "front": get_camera_config()
+    }
+
+    robot_config = KochFollowerConfig(
+        port=follower_port,
+        id="follower_arm",
+        cameras=camera_config,
+    )
+      
     return KochFollower(robot_config)
 
 def get_leader_arm():
+    teleop_config = KochLeaderConfig(
+        port=leader_port,
+        id="leader_arm",
+    )
+    
     return KochLeaderConfig(teleop_config)
