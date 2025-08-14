@@ -25,12 +25,11 @@
 ## Description 
 Longterm robot project created by the members of Cogito Cogitron.
 
-The project is largely inspired by the work done by HuggingFace with [lerobot](https://github.com/huggingface/lerobot/blob/main/examples/7_get_started_with_real_robot.md).
+The project is largely inspired by the work done by HuggingFace with [lerobot](https://huggingface.co/docs/lerobot/il_robots).
 
 ## Getting started
 Prerequisits:
-- Ensure that git is installed on your machine. [Download Git](https://git-scm.com/downloads)
-- Make sure [Python is installed](https://www.python.org/downloads/).
+- Ensure that [Git](https://git-scm.com/downloads) and [Python](https://www.python.org/downloads/) is installed on your machine. 
 
 Download the repository by running the following:
 ```bash
@@ -45,12 +44,12 @@ cd ./cogitron
 ### Setup enviroment
 Note: It is required to run the code on Linux.
 
-To set up a python enviroment run the following in the terminal:
+To set up a Python enviroment run the following in the terminal:
 ```bash
 python3 -m venv venv
 ```
 
-Then activate it 
+Then activate it:
 ```bash
 . venv/bin/activate
 ```
@@ -60,8 +59,24 @@ Install the requirements with:
 pip install -r requirements.txt
 ```
 
-For more information see the [documentation for lerobot](https://huggingface.co/docs/lerobot/il_robots)
+### Compile
+Installing the following packages might be required if they are not present on your machine:
+```bash
+apt install libcap-dev libsystemd-dev python3-dev
+```
 
+You can run the following command to build and install the project. Replace `<wheel-name>` with the generated wheel filename:
+```bash
+python3 -m build --outdir dist; pip install dist/<wheel-name>.whl --force-reinstall
+```
+
+## Scripts
+Script for training and running the AI models can be found under the folder:
+ ```bash
+ ./cogitron/scripts/
+ ```
+
+For more information see the [documentation for lerobot](https://huggingface.co/docs/lerobot/il_robots)
 
 ### License
 ------
