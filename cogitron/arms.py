@@ -91,9 +91,9 @@ def get_arm_ports():
 
 
 def get_follower_arm():
+    global follower_port, leader_port
+    
     if follower_port is None:
-        global follower_port, leader_port
-
         follower_port, leader_port = get_arm_ports()
     
     camera_config = {
@@ -109,9 +109,9 @@ def get_follower_arm():
     return KochFollower(robot_config)
 
 def get_leader_arm():
+    global follower_port, leader_port
+    
     if leader_port is None:
-        global follower_port, leader_port
-
         follower_port, leader_port = get_arm_ports()
 
     teleop_config = KochLeaderConfig(
