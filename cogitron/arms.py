@@ -46,54 +46,60 @@ model_numbers = {
 leader_arm_key = tuple(map(lambda x:model_numbers[x[1]], leader_arm_motors.values()))
 follower_arm_key = tuple(map(lambda x:model_numbers[x[1]], follower_arm_motors.values()))
 
+follower_port, leader_port = None, None
 
-possible_arm_paths = Path("/dev").glob("ttyACM*")
-possible_arm_paths = [str(path) for path in possible_arm_paths]
-arm_paths = list(filter(lambda path:get_device_id(path)==config.ROBOT_ARM_USB_ID, possible_arm_paths))
+def get_arm_ports():
+    possible_arm_paths = Path("/dev").glob("ttyACM*")
+    possible_arm_paths = [str(path) for path in possible_arm_paths]
+    arm_paths = list(filter(lambda path:get_device_id(path)==config.ROBOT_ARM_USB_ID, possible_arm_paths))
 
-packet_handler = dxl.PacketHandler(PROTOCOL_VERSION)
+    packet_handler = dxl.PacketHandler(PROTOCOL_VERSION)
 
-for port in arm_paths:
-    port_handler = dxl.PortHandler(port)
-    port_handler.setPacketTimeoutMillis(TIMEOUT_MS)
-    port_handler.openPort()
-    
-    if not port_handler.openPort():
-        raise OSError(f"Failed to open port '{port}'.")
-    
-    sync_reader = dxl.GroupSyncRead(port_handler, packet_handler, 0, 2)
-
-    key = []
-    
-    for id in range(1,7):
-        sync_reader.addParam(id)
-        sync_reader.txRxPacket()
+    for port in arm_paths:
+        port_handler = dxl.PortHandler(port)
+        port_handler.setPacketTimeoutMillis(TIMEOUT_MS)
+        port_handler.openPort()
         
-        model_number = sync_reader.getData(id, 0, 2)
-        key.append(model_number)
-
-        sync_reader.removeParam(id)
+        if not port_handler.openPort():
+            raise OSError(f"Failed to open port '{port}'.")
         
-    key = tuple(key)
+        sync_reader = dxl.GroupSyncRead(port_handler, packet_handler, 0, 2)
+
+        key = []
+        
+        for id in range(1,7):
+            sync_reader.addParam(id)
+            sync_reader.txRxPacket()
+            
+            model_number = sync_reader.getData(id, 0, 2)
+            key.append(model_number)
+
+            sync_reader.removeParam(id)
+            
+        key = tuple(key)
+        
+        global follower_port, leader_port
+
+        if key==leader_arm_key:
+            leader_port = port
+        elif key==follower_arm_key:
+            follower_port = port
+
+        port_handler.closePort()
     
-    print(key)
-
-    print(follower_arm_key)
-
-    if key==leader_arm_key:
-        leader_port = port
-    elif key==follower_arm_key:
-        follower_port = port
-
-    port_handler.closePort()
-
+    return (follower_port, leader_port)
 
 
 def get_follower_arm():
+    if follower_port is None:
+        global follower_port, leader_port
+
+        follower_port, leader_port = get_arm_ports()
+    
     camera_config = {
         "front": get_camera_config()
     }
-
+    
     robot_config = KochFollowerConfig(
         port=follower_port,
         id="follower_arm",
@@ -103,6 +109,11 @@ def get_follower_arm():
     return KochFollower(robot_config)
 
 def get_leader_arm():
+    if leader_port is None:
+        global follower_port, leader_port
+
+        follower_port, leader_port = get_arm_ports()
+
     teleop_config = KochLeaderConfig(
         port=leader_port,
         id="leader_arm",
