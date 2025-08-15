@@ -1,3 +1,0 @@
-HUGGING_FACE_REPO_ID = "cogitron-act-policy"
-LOGITECH_CAMERA_ID = "046d:085c"
-ROBOT_ARM_USB_ID = "1a86:55d3"
