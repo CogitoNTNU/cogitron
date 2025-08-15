@@ -1,8 +1,6 @@
 import subprocess
 import dynamixel_sdk as dxl
-from lerobot.teleoperators.koch_leader import KochLeaderConfig, KochLeader
-from lerobot.robots.koch_follower import KochFollowerConfig, KochFollower
-from lerobot.cameras.opencv.configuration_opencv import OpenCVCameraConfig
+import lerobot
 from cogitron import config
 from pathlib import Path
 from cogitron.query_device import get_device_id
@@ -97,13 +95,13 @@ def get_follower_arm():
         "front": get_camera_config()
     }
     
-    robot_config = KochFollowerConfig(
+    robot_config = lerobot.robots.koch_follower.KochFollowerConfig(
         port=follower_port,
         id="follower_arm",
         cameras=camera_config,
     )
-      
-    return KochFollower(robot_config)
+     
+    return lerobot.robots.koch_follower.KochFollower(robot_config)
 
 def get_leader_arm():
     global follower_port, leader_port
@@ -111,9 +109,9 @@ def get_leader_arm():
     if leader_port is None:
         follower_port, leader_port = get_arm_ports()
 
-    teleop_config = KochLeaderConfig(
+    teleop_config = lerobot.teleoperators.koch_leader.koch_leader.KochLeaderConfig(
         port=leader_port,
         id="leader_arm",
     )
     
-    return KochLeaderConfig(teleop_config)
+    return lerobot.teleoperators.koch_leader.koch_leader.KochLeader(teleop_config)
