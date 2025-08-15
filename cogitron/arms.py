@@ -11,10 +11,7 @@ from cogitron.camera import get_camera_config
 PROTOCOL_VERSION = 2.0
 TIMEOUT_MS = 1000
 ADDRESS_MODEL_NUMBER = 0
-COMM_SUCCESS = 0 # Communication Success result value
-COMM_TX_FAIL = -1001 # Communication Tx Failed
-USB_DECODER_ID = "0000:0000" # Place holder. TODO: Change to actual value of decoder.
-
+DATA_SIZE_MODEL_NUMBER = 2
 
 leader_arm_motors = {
     # name: (index, model)
@@ -63,7 +60,7 @@ def get_arm_ports():
         if not port_handler.openPort():
             raise OSError(f"Failed to open port '{port}'.")
         
-        sync_reader = dxl.GroupSyncRead(port_handler, packet_handler, 0, 2)
+        sync_reader = dxl.GroupSyncRead(port_handler, packet_handler, ADDRESS_MODEL_NUMBER, DATA_SIZE_MODEL_NUMBER)
 
         key = []
         
@@ -71,7 +68,7 @@ def get_arm_ports():
             sync_reader.addParam(id)
             sync_reader.txRxPacket()
             
-            model_number = sync_reader.getData(id, 0, 2)
+            model_number = sync_reader.getData(id, ADDRESS_MODEL_NUMBER, DATA_SIZE_MODEL_NUMBER)
             key.append(model_number)
 
             sync_reader.removeParam(id)
