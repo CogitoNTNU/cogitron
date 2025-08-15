@@ -5,7 +5,7 @@ from lerobot.utils.utils import log_say
 from lerobot.utils.visualization_utils import _init_rerun
 from lerobot.record import record_loop
 import subprocess
-from config import TELEOPERATE_REPO_ID
+from config import HUGGING_FACE_REPO_ID
 
 from cogitron.arms import get_leader_arm, get_follower_arm
 
@@ -29,7 +29,7 @@ hf_username = subprocess.run("hf auth whoami").stdout.decode()
 
 # Create the dataset
 dataset = LeRobotDataset.create(
-    repo_id=f"{hf_username}/{TELEOPERATE_REPO_ID}",
+    repo_id=f"{hf_username}/{HUGGING_FACE_REPO_ID}",
     fps=FPS,
     features=dataset_features,
     robot_type=robot.name,
