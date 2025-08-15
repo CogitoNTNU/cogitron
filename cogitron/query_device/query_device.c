@@ -12,7 +12,7 @@ query_device_get_devpath(PyObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "s", &filepath))
         return NULL;
 
-    sd_device* device;    
+    sd_device* device = NULL; 
     sts = sd_device_new_from_devname(&device, filepath);
 
     if (sts < 0){
