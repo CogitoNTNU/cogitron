@@ -116,3 +116,10 @@ def get_leader_arm():
     )
     
     return KochLeader(teleop_config)
+
+
+def reboot(port_handler:dxl.PortHandler):
+    packet_handler:dxl.Protocol2PacketHandler = dxl.packet_handler(PROTOCOL_VERSION)
+    
+    for i in range(1,7):
+        packet_handler.reboot(port_handler, id)
