@@ -6,7 +6,7 @@ from lerobot.utils.visualization_utils import _init_rerun
 from lerobot.record import record_loop
 import subprocess
 from cogitron.config import HUGGING_FACE_REPO_ID
-from cogitron.arms import get_leader_arm, get_follower_arm
+from cogitron.arms import get_leader_arm, get_follower_arm, reboot
 
 NUM_EPISODES = 5
 FPS = 30
@@ -39,6 +39,9 @@ dataset = LeRobotDataset.create(
 # Initialize the keyboard listener and rerun visualization
 _, events = init_keyboard_listener()
 _init_rerun(session_name="recording")
+
+reboot(robot.bus.port_handler)
+reboot(teleop.bus.port_handler)
 
 # Connect the robot and teleoperator
 robot.connect()
