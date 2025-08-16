@@ -119,7 +119,12 @@ def get_leader_arm():
 
 
 def reboot(port_handler:dxl.PortHandler):
-    packet_handler:dxl.Protocol2PacketHandler = dxl.packet_handler(PROTOCOL_VERSION)
+    packet_handler:dxl.Protocol2PacketHandler = dxl.packet_handler.PacketHandler(PROTOCOL_VERSION)
     
-    for i in range(1,7):
+    if(not port_handler.is_open):
+        port_handler.openPort()
+
+    for id in range(1,7):
         packet_handler.reboot(port_handler, id)
+
+    port_handler.closePort()
