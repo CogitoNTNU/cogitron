@@ -24,7 +24,7 @@ action_features = hw_to_dataset_features(robot.action_features, "action")
 obs_features = hw_to_dataset_features(robot.observation_features, "observation")
 dataset_features = {**action_features, **obs_features}
 
-hf_username = subprocess.run("hf auth whoami").stdout.decode()
+hf_username = subprocess.run("hf auth whoami", shell=True).stdout.decode()
 
 # Create the dataset
 dataset = LeRobotDataset.create(
