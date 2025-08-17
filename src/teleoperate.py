@@ -13,6 +13,10 @@ robot.connect()
 teleop_device.connect()
 
 while True:
-    observation = robot.get_observation()
+    try:
+        observation = robot.get_observation()
+    except Exception as e:
+        print(e)
+        
     action = teleop_device.get_action()
     robot.send_action(action)
