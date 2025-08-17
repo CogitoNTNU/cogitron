@@ -3,7 +3,7 @@ from lerobot.datasets.utils import hw_to_dataset_features
 from lerobot.utils.control_utils import init_keyboard_listener
 from lerobot.utils.utils import log_say
 from lerobot.utils.visualization_utils import _init_rerun
-from lerobot.record import record_loop
+from cogitron.record import record_loop
 import subprocess
 from cogitron.config import HUGGING_FACE_REPO_ID
 from cogitron.arms import get_leader_arm, get_follower_arm, reboot
