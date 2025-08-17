@@ -7,6 +7,7 @@ from lerobot.record import record_loop
 import subprocess
 from cogitron.config import HUGGING_FACE_REPO_ID
 from cogitron.arms import get_leader_arm, get_follower_arm, reboot
+import time
 
 NUM_EPISODES = 5
 FPS = 30
@@ -42,7 +43,7 @@ try:
 except:
     dataset = LeRobotDataset(
             repo_id=f"{hf_username}/{HUGGING_FACE_REPO_ID}",
-            root="~/.config/huggingface/lerobot/dataset",
+            root="/home/cogitron/.cache/huggingface/lerobot/dataset",
         )
     
 # Initialize the keyboard listener and rerun visualization
@@ -51,6 +52,8 @@ _init_rerun(session_name="recording")
 
 reboot(robot.bus.port_handler)
 reboot(teleop.bus.port_handler)
+
+time.sleep(1)
 
 # Connect the robot and teleoperator
 robot.connect()
