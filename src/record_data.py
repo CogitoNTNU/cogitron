@@ -26,16 +26,25 @@ dataset_features = {**action_features, **obs_features}
 
 hf_username = subprocess.run("hf auth whoami", shell=True, capture_output=True).stdout.decode()
 
-# Create the dataset
-dataset = LeRobotDataset.create(
-    repo_id=f"{hf_username}/{HUGGING_FACE_REPO_ID}",
-    fps=FPS,
-    features=dataset_features,
-    robot_type=robot.name,
-    use_videos=True,
-    image_writer_threads=4,
-)
 
+
+
+#Create the dataset
+try:
+    dataset = LeRobotDataset.create(
+       repo_id=f"{hf_username}/{HUGGING_FACE_REPO_ID}",
+       fps=FPS,
+       features=dataset_features,
+       robot_type=robot.name,
+       use_videos=True,
+       image_writer_threads=4,
+    )
+except:
+    dataset = LeRobotDataset(
+            repo_id=f"{hf_username}/{HUGGING_FACE_REPO_ID}",
+            root="~/.config/huggingface/lerobot/dataset",
+        )
+    
 # Initialize the keyboard listener and rerun visualization
 _, events = init_keyboard_listener()
 _init_rerun(session_name="recording")
