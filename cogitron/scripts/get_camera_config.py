@@ -1,7 +1,19 @@
 import cogitron
+import sys
+
+class HiddenPrints:
+    def __enter__(self):
+        self._original_stdout = sys.stdout
+        sys.stdout = open(os.devnull, 'w')
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        sys.stdout.close()
+        sys.stdout = self._original_stdout
 
 def main():
-    camera_config = cogitron.camera.get_camera_config()
+    with HiddenPrints():
+        camera_config = cogitron.camera.get_camera_config()
+
     print('"{ front: {type: opencv, index_or_path: ' + str(camera_config.index_or_path) \
           + ', width: ' + str(camera_config.width) + ', height: ' + str(camera_config.height) + ', fps: ' + str(camera_config.fps) + '}}"')
 
