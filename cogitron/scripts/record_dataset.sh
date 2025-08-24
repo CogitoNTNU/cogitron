@@ -1,8 +1,10 @@
+camera_config=$(cogitron-camera-config);
+
 lerobot-record \
     --robot.type=koch_follower \
     --robot.port=$(cogitron-follower-port) \
     --robot.id=follower_arm \
-    --robot.cameras=$(cogitron-camera-config) \
+    --robot.cameras=$camera_config \
     --teleop.type=koch_leader \
     --teleop.port=$(cogitron-leader-port 2> /dev/null) \
     --teleop.id=leader_arm \
