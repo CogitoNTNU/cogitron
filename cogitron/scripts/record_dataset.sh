@@ -1,0 +1,12 @@
+lerobot-record \
+    --robot.type=koch_follower \
+    --robot.port=$(cogitron-follower-port) \
+    --robot.id=follower_arm \
+    --robot.cameras=$(cogitron-camera-config) \
+    --teleop.type=koch_leader \
+    --teleop.port=$(cogitron-leader-port) \
+    --teleop.id=leader_arm \
+    --display_data=true \
+    --dataset.repo_id=${HF_USER}/record-test \
+    --dataset.num_episodes=5 \
+    --dataset.single_task=$1
