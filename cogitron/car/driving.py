@@ -14,6 +14,7 @@ import time
 import keyboard
 from pynput import keyboard as kb
 
+CALIBRATION_ONSTART = False
 
 def configure_motor_and_encoder(axis):
     axis.motor.config.current_lim = 100
@@ -53,20 +54,23 @@ def setup_odrive():
     odrv = odrive.find_any()
     odrv.clear_errors()
 
+    
     for axis in [odrv.axis0, odrv.axis1]:
         configure_motor_and_encoder(axis)
 
     print("Konfigurasjon fullført. Lagrer konfigurasjon...")
-    # odrv.save_configuration()
+    odrv.save_configuration()
 
     print("Venter på at ODrive skal restarte...")
     time.sleep(3)
     odrv = odrive.find_any()
 
-    for axis in [odrv.axis0, odrv.axis1]:
-        calibrate_axis(axis)
+    if CALIBRATION_ONSTART:
+        for axis in [odrv.axis0, odrv.axis1]:
+            calibrate_axis(axis)
 
-    print("Kalibrering fullført.")
+        print("Kalibrering fullført.")
+
     dump_errors(odrv)
     return odrv
 
@@ -88,29 +92,29 @@ def control_loop(odrv):
 
     def update_velocity():
         if 'w' in pressed_keys and 'a' in pressed_keys:
-            odrv.axis0.controller.input_vel = velocity
-            odrv.axis1.controller.input_vel = -velocity
+            odrv.axis0.controller.input_vel = -velocity
+            odrv.axis1.controller.input_vel = 0.5*velocity
         elif 'w' in pressed_keys and 'd' in pressed_keys:
-            odrv.axis0.controller.input_vel = velocity
-            odrv.axis1.controller.input_vel = -2 * velocity
+            odrv.axis0.controller.input_vel = -0.5*velocity
+            odrv.axis1.controller.input_vel = velocity
         elif 's' in pressed_keys and 'a' in pressed_keys:
+            odrv.axis0.controller.input_vel = velocity
+            odrv.axis1.controller.input_vel = -0.5*velocity
+        elif 's' in pressed_keys and 'd' in pressed_keys:
+            odrv.axis0.controller.input_vel = 0.5*velocity
+            odrv.axis1.controller.input_vel = -velocity
+        elif 'w' in pressed_keys:
             odrv.axis0.controller.input_vel = -velocity
             odrv.axis1.controller.input_vel = velocity
-        elif 's' in pressed_keys and 'd' in pressed_keys:
-            odrv.axis0.controller.input_vel = -velocity
-            odrv.axis1.controller.input_vel = 2 * velocity
-        elif 'w' in pressed_keys:
+        elif 's' in pressed_keys:
             odrv.axis0.controller.input_vel = velocity
             odrv.axis1.controller.input_vel = -velocity
-        elif 's' in pressed_keys:
-            odrv.axis0.controller.input_vel = -velocity
-            odrv.axis1.controller.input_vel = velocity
         elif 'a' in pressed_keys:
             odrv.axis0.controller.input_vel = velocity
-            odrv.axis1.controller.input_vel = -velocity
+            odrv.axis1.controller.input_vel = velocity
         elif 'd' in pressed_keys:
-            odrv.axis0.controller.input_vel = velocity
-            odrv.axis1.controller.input_vel = -2 * velocity
+            odrv.axis0.controller.input_vel = -velocity
+            odrv.axis1.controller.input_vel = -velocity
         else:
             # Ingen relevante taster trykket: Stopp
             odrv.axis0.controller.input_vel = 0
@@ -141,6 +145,7 @@ def control_loop(odrv):
 
     while running:
         time.sleep(0.05)
+        
 
     listener.stop()
 
