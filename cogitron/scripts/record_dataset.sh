@@ -1,4 +1,4 @@
-echo lerobot-record \
+echo cogitron-record \
     --robot.type=koch_follower \
     --robot.port=$(cogitron-follower-port) \
     --robot.id=follower_arm \
@@ -6,7 +6,7 @@ echo lerobot-record \
     --teleop.type=koch_leader \
     --teleop.port=$(cogitron-leader-port) \
     --teleop.id=leader_arm \
-    --display_data=true \
+    --display_data=false \
     --dataset.repo_id=${HF_USER}/record-test \
     --dataset.num_episodes=5 \
     --dataset.single_task="record" \
