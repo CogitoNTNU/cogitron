@@ -10,4 +10,4 @@ echo cogitron-record \
     --dataset.repo_id=${HF_USER}/record-test \
     --dataset.num_episodes=5 \
     --dataset.single_task="record" \
-    --dataset.root="~/cogitron" | bash
+    --dataset.root="/home/cogitron/cogitron/dataset" | bash
