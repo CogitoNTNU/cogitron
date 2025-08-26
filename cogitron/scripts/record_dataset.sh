@@ -9,4 +9,5 @@ echo lerobot-record \
     --display_data=true \
     --dataset.repo_id=${HF_USER}/record-test \
     --dataset.num_episodes=5 \
-    --dataset.single_task=$1 | bash
+    --dataset.single_task="record" \
+    --dataset.root="~/cogitron" | bash
