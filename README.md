@@ -79,7 +79,7 @@ Install the requirements with:
 pip install -r requirements.txt
 ```
 
-If you want to connect to
+If you want to connect to connect to the machine with SSH you have to setup a SSH server on the machine.
 
 
 ### Compile
