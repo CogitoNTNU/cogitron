@@ -41,7 +41,27 @@ After cloning the repository you can change into the directory by running:
 cd ./cogitron
 ```
 
-### Setup enviroment
+### Connect to existing enviroment
+You can search for devices in year network by using the nmap script run by:
+```bash
+./cogitron/scripts/find_server.sh
+```
+It is assumed that nmap is installed and that you are running the script in a linux enviroment. If you are on windows you can install WSL and run it from there.
+
+If you get a `Permission denied` error after trying to execute a script you can use the following command to allow execution of the script:
+```bash
+sudo chmod +x ./cogitron/scripts/find_server.sh
+```
+
+After executing the script you will obtain a list of IP-addresses with port 22 open. These will likely have an active SSH-service.
+
+You can connect to a SSH server by running
+```bash
+ssh cogitron@<ip-address>
+```
+where you replace the "\<ip-address\>" with the actual ip address you are trying to connect to. You can then type in the password to the SSH session. This gives you a Bash shell to the machine. 
+
+### Setup enviroment on a new machine
 Note: It is required to run the code on Linux.
 
 To set up a Python enviroment run the following in the terminal:
@@ -58,6 +78,9 @@ Install the requirements with:
 ```bash
 pip install -r requirements.txt
 ```
+
+If you want to connect to
+
 
 ### Compile
 Installing the following packages might be required if they are not present on your machine:
