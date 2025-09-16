@@ -1,0 +1,27 @@
+from cogitron.arms import get_follower_arm, get_leader_arm, reboot
+import time
+
+def main():
+    robot = get_follower_arm()
+    teleop_device = get_leader_arm()
+
+    reboot(robot.bus.port_handler)
+    reboot(teleop_device.bus.port_handler)
+
+    time.sleep(1)
+
+    robot.connect()
+    teleop_device.connect()
+
+    while True:
+        try:
+            observation = robot.get_observation()
+        except Exception as e:
+            print(e)
+            
+        action = teleop_device.get_action()
+        robot.send_action(action)
+
+
+if __name__ == '__main__':
+    main()
