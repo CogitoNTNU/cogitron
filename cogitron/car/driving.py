@@ -14,7 +14,7 @@ import time
 import keyboard
 from pynput import keyboard as kb
 
-CALIBRATION_ONSTART = False
+-CALIBRATION_ONSTART = False
 
 def configure_motor_and_encoder(axis):
     axis.motor.config.current_lim = 100
