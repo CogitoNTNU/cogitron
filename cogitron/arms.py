@@ -6,6 +6,7 @@ from cogitron import config
 from pathlib import Path
 from cogitron.query_device import get_device_id
 from cogitron.camera import get_camera_config
+from cogitron.filecache import filecache
 
 PROTOCOL_VERSION = 2.0
 TIMEOUT_MS = 1000
@@ -44,6 +45,42 @@ follower_arm_key = tuple(map(lambda x:model_numbers[x[1]], follower_arm_motors.v
 
 follower_port, leader_port = None, None
 
+
+def get_port_key(port):
+    packet_handler = dxl.PacketHandler(PROTOCOL_VERSION)
+
+    port_handler = dxl.PortHandler(port)
+    port_handler.setPacketTimeoutMillis(TIMEOUT_MS)
+    port_handler.openPort()
+    
+    if not port_handler.openPort():
+        return None
+    
+    sync_reader = dxl.GroupSyncRead(port_handler, packet_handler, ADDRESS_MODEL_NUMBER, DATA_SIZE_MODEL_NUMBER)
+
+    key = []
+    
+    for id in range(1,7):
+        sync_reader.addParam(id)
+        sync_reader.txRxPacket()
+        
+        model_number = sync_reader.getData(id, ADDRESS_MODEL_NUMBER, DATA_SIZE_MODEL_NUMBER)
+        key.append(model_number)
+
+        sync_reader.removeParam(id)
+        
+    key = tuple(key)
+
+    return key
+
+
+def validate_arm_ports(ports):
+    follower_port, leader_port = ports
+    current_follower_arm_key, current_leader_arm_key = get_port_key(follower_port), get_port_key(leader_port)
+    is_valid = (current_follower_arm_key, current_leader_arm_key) == (follower_arm_key, leader_arm_key)
+    return is_valid
+
+@filecache(validation_function=validate_arm_ports)
 def get_arm_ports():
     possible_arm_paths = Path("/dev").glob("ttyACM*")
     possible_arm_paths = [str(path) for path in possible_arm_paths]
