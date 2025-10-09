@@ -1,7 +1,10 @@
 import cv2
 import os
+from cogitron.camera import get_camera_config
 from datetime import datetime
 
+
+camera_config = get_camera_config()
 # Define dataset paths
 SAVE_DIR = "dataset"
 GREEN_DIR = os.path.join(SAVE_DIR, "green_light")
@@ -16,7 +19,7 @@ os.makedirs(RED_LIGHT_DIR, exist_ok=True)
 
 
 # Start webcam
-cap = cv2.VideoCapture(0)
+cap = camera = cv2.VideoCapture(camera_config.index_or_path)
 
 print("Press 'g' to save GREEN light image.")
 print("Press 'n' to save NO light image.")
@@ -31,7 +34,7 @@ while True:
         break
 
     # Display instructions
-    cv2.putText(frame, "Press 'g' for GREEN, 'n' for NO light, 'q' to quit.",
+    cv2.putText(frame, "Press 'g' for GREEN, 'r' for RED, 'n' for NO light, 'q' to quit.",
                 (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
 
     cv2.imshow("Capture Dataset", frame)
@@ -47,7 +50,7 @@ while True:
         cv2.imwrite(filename, frame)
         print(f"[Saved] NO LIGHT: {filename}")
     elif key == ord('r'):
-        filename = os.path.join(NO_LIGHT_DIR, f"no_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}.jpg")
+        filename = os.path.join(RED_LIGHT_DIR, f"red_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}.jpg")
         cv2.imwrite(filename, frame)
         print(f"[Saved] RED: {filename}")
 

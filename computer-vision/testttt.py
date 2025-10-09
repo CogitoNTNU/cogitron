@@ -3,10 +3,10 @@ import tensorflow as tf
 import numpy as np
 
 # Load model
-model = tf.keras.models.load_model("light_classifier.h5")
+model = tf.keras.models.load_model("C:/Users/denni/cogitron/computer-vision/light_classifier.h5")
 
 # Labels
-class_names = ["green_light", "red_light"]  # Adjust order if needed
+class_names = ["green_light","no_light", "red_light"]  # Adjust order if needed
 
 # Start webcam
 cap = cv2.VideoCapture(1)
