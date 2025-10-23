@@ -4,7 +4,6 @@
 
 <div align="center">
 
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/CogitoNTNU/TEMPLATE-README/ci.yml)
 ![GitHub top language](https://img.shields.io/badge/languages-Python/C-orange)
 [![License: GPLv3](https://img.shields.io/badge/license-GPLv3-blue)](https://opensource.org/license/gpl-3-0)
 [![Project Version](https://img.shields.io/badge/version-0.0.1-blue)](https://img.shields.io/badge/version-0.0.1-blue)
@@ -43,7 +42,7 @@ cd ./cogitron
 ```
 
 ### Connect to existing enviroment
-You can search for devices in year network by using the nmap script run by:
+If you have already setup a linux server then you can search for devices in your network by using the nmap script run by:
 ```bash
 ./cogitron/scripts/find_server.sh
 ```
