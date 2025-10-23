@@ -139,7 +139,21 @@ lerobot-teleoperate \
 
 Record dataset:
 ```bash
-lerobot-record --robot.type=koch_follower --robot.port=/dev/ttyACM0 --robot.id=follower_arm --robot.cameras="{ front: {type: opencv, index_or_path: /dev/video0, width: 640, height: 480, fps: 30}}" --teleop.type=koch_leader --teleop.port=/dev/ttyACM1 --teleop.id=leader_arm --display_data=false --dataset.repo_id=Christiangynnild/record-test --dataset.num_episodes=10 --dataset.single_task=record --dataset.root=dataset --dataset.reset_time_s=15 --dataset.episode_time_s=15
+lerobot-record \
+--robot.type=koch_follower \
+--robot.port=/dev/ttyACM0 \
+--robot.id=follower_arm \
+--robot.cameras="{ front: {type: opencv, index_or_path: /dev/video0, width: 640, height: 480, fps: 30}}" \
+--teleop.type=koch_leader \
+--teleop.port=/dev/ttyACM1 \
+--teleop.id=leader_arm \
+--display_data=false \
+--dataset.repo_id=Christiangynnild/record-test \
+--dataset.num_episodes=10 \
+--dataset.single_task=record \
+--dataset.root=dataset \
+--dataset.reset_time_s=15 \
+--dataset.episode_time_s=15
 ```
 
 
