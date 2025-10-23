@@ -101,6 +101,81 @@ Script for training and running the AI models can be found under the folder:
 
 For more information see the [documentation for lerobot](https://huggingface.co/docs/lerobot/il_robots)
 
+# Commands
+Calibrate:
+```bash
+lerobot-calibrate \
+    --robot.type=koch_follower \
+    --robot.port=/dev/ttyACM0 \
+    --robot.id=follower_arm
+```
+
+
+```bash
+lerobot-calibrate \
+    --teleop.type=koch_leader \
+    --teleop.port=/dev/ttyACM1 \
+    --teleop.id=leader_arm
+```
+
+
+Teleoperate:
+```bash
+lerobot-teleoperate \
+--robot.type=koch_follower \
+--robot.port=/dev/ttyACM0 \
+--robot.id=follower_arm \
+--robot.cameras="{ front: {type: opencv, index_or_path: /dev/video0, width: 640, height: 480, fps: 30}}" \
+--teleop.type=koch_leader \
+--teleop.port=/dev/ttyACM1 \
+--teleop.id=leader_arm
+```
+
+Record:
+```bash
+lerobot-record --robot.type=koch_follower --robot.port=/dev/ttyACM0 --robot.id=follower_arm --robot.cameras="{ front: {type: opencv, index_or_path: /dev/video0, width: 640, height: 480, fps: 30}}" --teleop.type=koch_leader --teleop.port=/dev/ttyACM1 --teleop.id=leader_arm --display_data=false --dataset.repo_id=Christiangynnild/record-test --dataset.num_episodes=10 --dataset.single_task=record --dataset.root=dataset --dataset.reset_time_s=15 --dataset.episode_time_s=15
+```
+
+
+Copy files from ssh (change the ip adress to the server ip):
+```bash
+scp -r cogitron@10.22.22.114:/home/cogitron/cogitron/dataset dataset
+```
+
+
+train policy (Change repo ids):
+
+```bash
+lerobot-train \
+--dataset.repo_id=christiangynnild/cogitron-act-policy \
+--policy.type=act \
+--output_dir=outputs/training \
+--job_name=cogitron_training \
+--policy.device=cuda \
+--wandb.enable=true \
+--policy.repo_id=christiangynnild/cogitron-act-policy \
+--save_freq=1000
+```
+
+
+Evaluate policy:
+```bash
+lerobot-record  \
+  --robot.type=koch_follower \
+  --robot.port=/dev/ttyACM0 \
+  --robot.cameras="{ front: {type: opencv, index_or_path: /dev/video0, width: 640, height: 480, fps: 30}}" \
+  --robot.id=follower_arm \
+  --display_data=false \
+  --dataset.repo_id=christiangynnild/eval_cogitron-act-policy \
+  --dataset.single_task="Put blue cyllinder in box" \
+  --policy.path=christiangynnild/cogitron-model-act-policy \
+```
+
+Open live camera stream:
+```bash
+cogitron-video-stream 
+```
+
 ### License
 ------
 Distributed under the GPLv3 License. See `LICENSE` for more information.
