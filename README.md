@@ -5,7 +5,7 @@
 <div align="center">
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/CogitoNTNU/TEMPLATE-README/ci.yml)
-![GitHub top language](https://img.shields.io/badge/languages-Python/C++-orange)
+![GitHub top language](https://img.shields.io/badge/languages-Python/C-orange)
 [![License: GPLv3](https://img.shields.io/badge/license-GPLv3-blue)](https://opensource.org/license/gpl-3-0)
 [![Project Version](https://img.shields.io/badge/version-0.0.1-blue)](https://img.shields.io/badge/version-0.0.1-blue)
 
@@ -18,6 +18,7 @@
 - [Description](#description)
 - [Getting started](#getting-started)
   - [Set up enviroment](#setup-enviroment)
+- [commands](#commands)
 - [License](#license)
 
 </details>
@@ -93,15 +94,21 @@ You can run the following command to build and install the project. Replace `<wh
 python3 -m build --outdir dist; pip install dist/<wheel-name>.whl --force-reinstall
 ```
 
-## Scripts
-Script for training and running the AI models can be found under the folder:
- ```bash
- ./cogitron/scripts/
- ```
-
-For more information see the [documentation for lerobot](https://huggingface.co/docs/lerobot/il_robots)
-
 # Commands
+You might need to change the port parameter before running the commands. If all the motors are properly connected you can run:
+
+```bash
+cogitron-leader-port
+```
+```bash
+cogitron-follower-port
+```
+
+This will find the port for the leader arm and follower arm respectivly. It the scripts does not run successfully, you can use:
+```bash
+lerobot-find-port
+```
+
 Calibrate:
 ```bash
 lerobot-calibrate \
@@ -131,7 +138,7 @@ lerobot-teleoperate \
 --teleop.id=leader_arm
 ```
 
-Record:
+Record dataset:
 ```bash
 lerobot-record --robot.type=koch_follower --robot.port=/dev/ttyACM0 --robot.id=follower_arm --robot.cameras="{ front: {type: opencv, index_or_path: /dev/video0, width: 640, height: 480, fps: 30}}" --teleop.type=koch_leader --teleop.port=/dev/ttyACM1 --teleop.id=leader_arm --display_data=false --dataset.repo_id=Christiangynnild/record-test --dataset.num_episodes=10 --dataset.single_task=record --dataset.root=dataset --dataset.reset_time_s=15 --dataset.episode_time_s=15
 ```
@@ -158,7 +165,7 @@ lerobot-train \
 ```
 
 
-Evaluate policy:
+Evaluate policy (change repo ids):
 ```bash
 lerobot-record  \
   --robot.type=koch_follower \
@@ -175,6 +182,9 @@ Open live camera stream:
 ```bash
 cogitron-video-stream 
 ```
+
+For more information about possible commands please see the setup.cfg file and the [documentation for lerobot](https://huggingface.co/docs/lerobot/il_robots).
+
 
 ### License
 ------
